@@ -1,4 +1,5 @@
 
+
 /**
  * Provide a counter for a participant in the simulation.
  * This includes an identifying string and a count of how
@@ -6,7 +7,7 @@
  * the simulation.
  * 
  * @author David J. Barnes and Michael Kolling
- * @version 2003.10.28
+ * @version 2008.03.30
  */
 public class Counter
 {
@@ -17,7 +18,7 @@ public class Counter
 
     /**
      * Provide a name for one of the simulation types.
-     * @param name  A name, e.g. "Shark".
+     * @param name  A name, e.g. "Fox".
      */
     public Counter(String name)
     {

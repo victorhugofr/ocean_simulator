@@ -1,19 +1,17 @@
 
 /**
- * Write a description of class Fish here.
- * 
- * NOTE: This should serve as a superclass to all specific tyes of fish
- * 
- * @author (your name) 
- * @version (a version number or a date)
+ *Classe baseada em Animal, do projeto fox and rabbits
  */
-public class Fish
-{
-	/**
-	 * Constructor for objects of class Fish
-	 */
-	public Fish()
-	{
-	}
-
+public abstract class Fish extends Cell{
+    
+    /**
+     * Create a new animal at location in field.
+     * 
+     * @param field The field currently occupied.
+     * @param location The location within the field.
+     */
+    public Fish(Ocean field, Location location){
+    	super(field,location);
+    }
+   
 }
