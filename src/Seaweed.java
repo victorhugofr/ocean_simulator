@@ -13,13 +13,13 @@ public class Seaweed extends Cell
     // Characteristics shared by all sardines (static fields).
 
     // The age at which a sardine can start to breed.
-    private static final int BREEDING_AGE = 10;
+    private static final int BREEDING_AGE = 5;
     // The age to which a sardine can live.
-    private static final int MAX_AGE = 17;
+    private static final int MAX_AGE = 40;
     // The likelihood of a sardine breeding.
-    private static final double BREEDING_PROBABILITY = 0.1;
+    private static final double BREEDING_PROBABILITY = 0.2;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 2;
+    private static final int MAX_LITTER_SIZE = 5;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     

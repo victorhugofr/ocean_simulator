@@ -37,6 +37,9 @@ public abstract class Cell {
 	    public boolean isAlive(){
 	        return alive;
 	    }
+	    public void setAlive(boolean a){
+	        alive=a;
+	    }
 	    abstract public void act(List<Cell> newAnimals);
 	    /**
 	     * Indicate that the animal is no longer alive.

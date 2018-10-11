@@ -3,11 +3,11 @@
 	import java.util.Random;
 public class Sardine extends Fish{
 		    // The age at which a tuna can start to breed.
-	    private static final int BREEDING_AGE = 10;
+	    private static final int BREEDING_AGE = 5;
 	    // The age to which a tuna can live.
 	    private static final int MAX_AGE = 150;
 	    // The likelihood of a tuna breeding.
-	    private static final double BREEDING_PROBABILITY = 0.35;
+	    private static final double BREEDING_PROBABILITY = 0.30;
 	    // The maximum number of tunas.
 	    private static final int MAX_LITTER_SIZE = 5;
 	    // The food value of a single sardine. In effect, this is the
@@ -16,15 +16,6 @@ public class Sardine extends Fish{
 	    // A shared random number generator to control breeding.
 	    private static final Random rand = Randomizer.getRandom();
 
-	    // The tuna's age.
-	    private int age;
-	    // Whether the tuna is alive or not.
-	    private boolean alive;
-	    // The tuna's position.
-	    private Location location;
-	    // The field occupied.
-	    // The tuna's food level, which is increased by eating sardines.
-	    private int foodLevel;
 
 	    /**
 	     * Create a tuna. A tuna can be created as a new born (age zero
@@ -36,15 +27,15 @@ public class Sardine extends Fish{
 	     */
 	    public Sardine(boolean randomAge, Ocean field, Location location){
 	    	super(field, location);
-	        age = 0;
-	        alive = true;
+	        setAge(0);
+	        setAlive(true);
 	        if(randomAge) {
-	            age = rand.nextInt(MAX_AGE);
-	            foodLevel = rand.nextInt(SEAWEED_FOOD_VALUE);
+	            setAge(rand.nextInt(MAX_AGE));
+	            setFoodLevel(rand.nextInt(SEAWEED_FOOD_VALUE));
 	        }
 	        else {
 	            // leave age at 0
-	            foodLevel = SEAWEED_FOOD_VALUE;
+	            setFoodLevel(SEAWEED_FOOD_VALUE);
 	        }
 	    }
 	    
@@ -62,9 +53,9 @@ public class Sardine extends Fish{
 	        if(isAlive()) {
 	            giveBirth(newSeaweeds);            
 	            // Try to move into a free location.
-	            Location newLocation = findFood(location);
+	            Location newLocation = findFood(getLocation());
 	            if(newLocation == null) {
-	            	newLocation = getField().freeAdjacentLocation(location);
+	            	newLocation = getField().freeAdjacentLocation(getLocation());
 	            }
 	            if(newLocation != null) {
 	                setLocation(newLocation);
@@ -79,17 +70,13 @@ public class Sardine extends Fish{
 	    /**
 	     * Check whether the tuna is alive or not.
 	     * @return True if the tuna is still alive.
-	     */
-	    public boolean isAlive()
-	    {
-	        return alive;
-	    }
+*/
 
 
 	    private void incrementAge()
 	    {
-	        age++;
-	        if(age > MAX_AGE) {
+	        setAge(getAge() + 1);
+	        if(getAge() > MAX_AGE) {
 	            setDead();
 	        }
 	    }
@@ -99,8 +86,8 @@ public class Sardine extends Fish{
 	     */
 	    private void incrementHunger()
 	    {
-	        foodLevel--;
-	        if(foodLevel <= 0) {
+	        setFoodLevel(getFoodLevel() - 1);
+	        if(getFoodLevel() <= 0) {
 	            setDead();
 	        }
 	    }
@@ -122,7 +109,7 @@ public class Sardine extends Fish{
 	                Seaweed seaweed = (Seaweed) animal;
 	                if(seaweed.isAlive()) { 
 	                    seaweed.setDead();
-	                    foodLevel = SEAWEED_FOOD_VALUE;
+	                    setFoodLevel(SEAWEED_FOOD_VALUE);
 	                    return where;
 	                }
 	            }
@@ -139,11 +126,12 @@ public class Sardine extends Fish{
 	    {
 	        // New tunas are born into adjacent locations.
 	        // Get a list of adjacent free locations.
-	        List<Location> free = getField().getFreeAdjacentLocations(location);
+	    	Ocean field = getField();
+	        List<Location> free = field.getFreeAdjacentLocations(getLocation());
 	        int births = breed();
 	        for(int b = 0; b < births && free.size() > 0; b++) {
 	            Location loc = free.remove(0);
-	            Tuna young = new Tuna(false, getField(), loc);
+	            Sardine young = new Sardine(false, field, loc);
 	            newTunas.add(young);
 	        }
 	    }
@@ -167,7 +155,7 @@ public class Sardine extends Fish{
 	     */
 	    private boolean canBreed()
 	    {
-	        return age >= BREEDING_AGE;
+	        return getAge() >= BREEDING_AGE;
 	    }
 
 	    /**
@@ -175,13 +163,4 @@ public class Sardine extends Fish{
 	     * It is removed from the field.
 	     */
 	    
-	    public void setDead()
-	    {
-	        alive = false;
-	        if(location != null) {
-	            getField().clear(location);
-	            location = null;
-	            setField(null);
-	        }
-	    }
 	}
